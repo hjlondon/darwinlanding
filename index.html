@@ -121,15 +121,10 @@
     box-shadow:0 1px 0 var(--line);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;}
-  .logo{display:flex;align-items:center;gap:10px;font-family:"Barlow Condensed";font-weight:800;font-size:22px;letter-spacing:.02em;text-transform:uppercase;}
-  .logo .mark{
-    width:34px;height:34px;border:2px solid var(--orange);border-radius:2px;
-    display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;
-  }
-  .logo .mark::before,.logo .mark::after{content:"";position:absolute;border-radius:50%;}
-  .logo .mark::before{width:16px;height:16px;border:2px solid var(--orange);}
-  .logo .mark::after{width:4px;height:4px;background:var(--orange);}
-  .logo small{display:block;font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.14em;color:var(--steel);text-transform:uppercase;font-weight:500;}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo img{height:32px;width:auto;display:block;transition:height .35s var(--ease);}
+  header.scrolled .logo img{height:26px;}
+  .footer-brand .logo img{height:36px;}
 
   .nav-links{display:flex;align-items:center;gap:34px;}
   .nav-links a{
@@ -487,8 +482,7 @@
 <header id="siteHeader">
   <div class="wrap nav">
     <a href="#top" class="logo" aria-label="Darwin Industrial home">
-      <span class="mark" aria-hidden="true"></span>
-      <span>Darwin<br><small>Industrial</small></span>
+      <img src="assets/darwin-logo.png" alt="Darwin Industrial">
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#expertise">Expertise</a>
@@ -837,8 +831,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="#top" class="logo" aria-label="Darwin Industrial home">
-          <span class="mark" aria-hidden="true"></span>
-          <span>Darwin<br><small>Industrial</small></span>
+          <img src="assets/darwin-logo.png" alt="Darwin Industrial">
         </a>
         <p>Rotating Equipment Staffing Partner. USA recruitment coverage across field service, engineering and commercial leadership.</p>
       </div>
