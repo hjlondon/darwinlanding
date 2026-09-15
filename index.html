@@ -175,6 +175,11 @@
   .hero-media{position:absolute;inset:0;overflow:hidden;z-index:0;}
   .hero-media .ph{position:absolute;inset:-6% ;width:112%;height:112%;}
   .hero-media .ph-icon svg{width:22%;height:22%;}
+  .hero-video{
+    position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;
+    opacity:0;transition:opacity 1.4s var(--ease);
+  }
+  .hero-video.loaded{opacity:1;}
   .hero-gradient{
     position:absolute;inset:0;z-index:1;
     background:
@@ -516,7 +521,16 @@
         <div class="ph-icon" aria-hidden="true">
           <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="34"/><circle cx="50" cy="50" r="6"/><path d="M50 16 L50 26 M50 74 L50 84 M16 50 L26 50 M74 50 L84 50 M27 27 L34 34 M66 66 L73 73 M73 27 L66 34 M34 66 L27 73"/></svg>
         </div>
+        <span class="ph-label">Video Placeholder — drop hero footage in assets/hero-video.mp4</span>
       </div>
+      <!--
+        Hero video slot: add a file at assets/hero-video.mp4 (H.264, ~1920x1080,
+        10-20s loop, no audio needed) and it plays automatically, fading in over
+        the placeholder above. Nothing else needs to change.
+      -->
+      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="assets/hero-video.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-gradient" aria-hidden="true"></div>
 
@@ -901,6 +915,29 @@
       headline.classList.add('animate');
     }, 120);
   });
+
+  // hero video — fades in over the placeholder once a real source loads;
+  // silently falls back to the placeholder if no file is present, and is
+  // skipped entirely for reduced-motion users
+  var heroVideo = document.getElementById('heroVideo');
+  if(heroVideo){
+    if(reduceMotion){
+      heroVideo.remove();
+    } else {
+      var videoReady = false;
+      heroVideo.addEventListener('loadeddata', function(){
+        videoReady = true;
+        heroVideo.classList.add('loaded');
+      });
+      heroVideo.addEventListener('error', function(){
+        heroVideo.remove();
+      });
+      heroVideo.play().catch(function(){});
+      setTimeout(function(){
+        if(!videoReady && heroVideo.readyState < 2){ heroVideo.remove(); }
+      }, 4000);
+    }
+  }
 
   // hero parallax
   var parallax = document.getElementById('heroParallax');
